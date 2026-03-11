@@ -178,7 +178,7 @@ export function NewOSModal({ isOpen, onClose, onSuccess, initialClientId }: NewO
                         <textarea name="descricao" value={formData.descricao} onChange={handleChange} rows={4} placeholder="Descreva os detalhes da OS..." />
                     </div>
 
-                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                    <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', position: 'sticky', bottom: '-2.5rem', background: 'var(--bg-card)', padding: '1rem 0', margin: '0 -2.5rem -2.5rem -2.5rem', borderTop: '1px solid var(--border-glass)', borderRadius: '0 0 var(--radius-lg) var(--radius-lg)', zIndex: 10 }}>
                         <button type="button" onClick={onClose} style={{ flex: 1, padding: '0.875rem', background: 'transparent', border: '1px solid var(--border-glass)' }} className="glass-panel">Cancelar</button>
                         <button type="submit" disabled={loading} style={{ flex: 2, padding: '0.875rem', background: 'var(--accent-primary)', color: '#0b0b0b', fontWeight: 600, border: 'none', borderRadius: 'var(--radius-md)', opacity: loading ? 0.7 : 1 }}>
                             {loading ? 'Criando...' : 'Gerar Ordem de Serviço'}
