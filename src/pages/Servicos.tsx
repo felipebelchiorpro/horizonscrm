@@ -163,9 +163,9 @@ export function Servicos() {
 
             {/* Modal */}
             {isModalOpen && (
-                <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+                <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>
                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(10px)' }} onClick={() => setIsModalOpen(false)} />
-                    <div className="glass-panel animate-fade-in" style={{ position: 'relative', width: '100%', maxWidth: '500px', padding: '2.5rem', zIndex: 101 }}>
+                    <div className="glass-panel animate-fade-in custom-scrollbar" style={{ position: 'relative', width: '100%', maxWidth: '500px', maxHeight: '90vh', overflowY: 'auto', padding: '2.5rem', zIndex: 100000 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2rem' }}>
                             <h2 className="text-2xl font-bold">{editingServico ? 'Editar Tipo' : 'Novo Tipo'}</h2>
                             <button onClick={() => setIsModalOpen(false)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
