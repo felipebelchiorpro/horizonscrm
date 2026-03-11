@@ -103,7 +103,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
     const avatarUrl = user?.avatar ? pb.files.getURL(user, user.avatar) : null;
 
     return (
-        <header className="header animate-fade-in" style={{ position: 'relative', zIndex: 110 }}>
+        <header className="header animate-fade-in" style={{ position: 'relative', zIndex: 10 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1 }}>
                 <button onClick={onMenuToggle} className="icon-btn" style={{ flexShrink: 0 }}>
                     <Menu size={20} strokeWidth={1.25} style={{ strokeWidth: 1.25 }} />
