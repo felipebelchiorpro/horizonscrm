@@ -113,7 +113,7 @@ export function NewOSModal({ isOpen, onClose, onSuccess, initialClientId }: NewO
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Cliente</label>
                         <div style={{ position: 'relative' }}>
-                            <User size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                            <User size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                             <select
                                 name="cliente"
                                 value={formData.cliente}
@@ -131,7 +131,7 @@ export function NewOSModal({ isOpen, onClose, onSuccess, initialClientId }: NewO
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Tipo de Serviço (Opcional)</label>
                         <div style={{ position: 'relative' }}>
-                            <Tag size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                            <Tag size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                             <select onChange={(e) => handleServiceChange(e.target.value)} style={{ paddingLeft: '2.75rem' }}>
                                 <option value="">Auto-preencher com serviço...</option>
                                 {servicos.map(s => <option key={s.id} value={s.id}>{s.nome}</option>)}
@@ -148,7 +148,7 @@ export function NewOSModal({ isOpen, onClose, onSuccess, initialClientId }: NewO
                         <div>
                             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Valor (R$)</label>
                             <div style={{ position: 'relative' }}>
-                                <DollarSign size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                <DollarSign size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                                 <input name="valor" type="number" step="0.01" value={formData.valor} onChange={handleChange} placeholder="0,00" style={{ paddingLeft: '2.75rem' }} />
                             </div>
                         </div>

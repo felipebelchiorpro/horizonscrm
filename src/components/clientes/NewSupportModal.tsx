@@ -106,7 +106,7 @@ export function NewSupportModal({ isOpen, onClose, onSuccess, clientId }: NewSup
                         <div>
                             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Tempo Gasto (Opcional, em horas)</label>
                             <div style={{ position: 'relative' }}>
-                                <Clock size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                <Clock size={16} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                                 <input name="tempo_gasto" type="number" step="0.5" min="0" value={formData.tempo_gasto} onChange={handleChange} style={{ paddingLeft: '2.75rem' }} placeholder="Ex: 1.5" />
                             </div>
                         </div>

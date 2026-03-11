@@ -74,10 +74,10 @@ export function NewDealModal({ isOpen, onClose, onSuccess }: NewDealModalProps) 
     };
 
     return (
-        <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(8px)' }} onClick={onClose} />
 
-            <div className="glass-panel animate-fade-in" style={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '1rem', padding: '2rem', zIndex: 101, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="glass-panel animate-fade-in" style={{ position: 'relative', width: '100%', maxWidth: '500px', margin: '1rem', padding: '2rem', zIndex: 100000, display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <h2 className="text-2xl font-bold">Novo Negócio</h2>
                     <button onClick={onClose} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0.5rem' }} className="hover:text-white transition-colors">
@@ -90,7 +90,7 @@ export function NewDealModal({ isOpen, onClose, onSuccess }: NewDealModalProps) 
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Título da Negociação *</label>
                         <div style={{ position: 'relative' }}>
-                            <Briefcase size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                            <Briefcase size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                             <input
                                 required
                                 type="text"
@@ -107,7 +107,7 @@ export function NewDealModal({ isOpen, onClose, onSuccess }: NewDealModalProps) 
                         <div>
                             <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Valor (R$)</label>
                             <div style={{ position: 'relative' }}>
-                                <DollarSign size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                                <DollarSign size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                                 <input
                                     type="number"
                                     step="0.01"
@@ -134,7 +134,7 @@ export function NewDealModal({ isOpen, onClose, onSuccess }: NewDealModalProps) 
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Cliente Vinculado</label>
                         <div style={{ position: 'relative' }}>
-                            <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                            <User size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                             <select
                                 name="cliente"
                                 value={formData.cliente}
@@ -154,7 +154,7 @@ export function NewDealModal({ isOpen, onClose, onSuccess }: NewDealModalProps) 
                     <div>
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>Previsão de Fechamento</label>
                         <div style={{ position: 'relative' }}>
-                            <Calendar size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                            <Calendar size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)', pointerEvents: 'none' }} />
                             <input
                                 type="date"
                                 name="data_fechamento"
