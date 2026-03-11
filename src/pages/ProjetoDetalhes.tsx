@@ -142,7 +142,8 @@ export function ProjetoDetalhes() {
     const custoTotal = custoHoras + custoServicos;
 
     return (
-        <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem', minHeight: '100%', paddingBottom: '2rem' }}>
+        <>
+            <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem', minHeight: '100%', paddingBottom: '2rem' }}>
             
             {/* Header (Bitrix Style) */}
             <div className="glass-panel" style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', background: 'linear-gradient(145deg, rgba(20,20,20,0.9) 0%, rgba(10,10,10,0.95) 100%)', borderTop: '4px solid var(--accent-primary)' }}>
@@ -391,6 +392,8 @@ export function ProjetoDetalhes() {
                 )}
             </div>
             
+            </div>
+            
             <NovaHoraModal 
                 isOpen={isHoraModalOpen} 
                 onClose={() => setIsHoraModalOpen(false)} 
@@ -404,6 +407,6 @@ export function ProjetoDetalhes() {
                 onSaved={fetchData} 
                 projetoId={projeto.id} 
             />
-        </div>
+        </>
     );
 }

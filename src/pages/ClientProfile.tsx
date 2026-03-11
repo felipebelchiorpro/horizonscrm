@@ -114,7 +114,8 @@ export function ClientProfile() {
     };
 
     return (
-        <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <>
+            <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
 
             {/* Navigation & Header */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -447,6 +448,7 @@ export function ClientProfile() {
                     </div>
                 </div>
             </div>
+            </div>
             <NewOSModal
                 isOpen={isOSModalOpen}
                 onClose={() => setIsOSModalOpen(false)}
@@ -465,6 +467,6 @@ export function ClientProfile() {
                 onSuccess={fetchClientData}
                 clientId={cliente.id}
             />
-        </div>
+        </>
     );
 }

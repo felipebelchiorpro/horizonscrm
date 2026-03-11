@@ -242,133 +242,135 @@ export function OrdensServico() {
     );
 
     return (
-        <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 0.5rem' }}>
-                <div>
-                    <h1 className="text-3xl font-bold" style={{ marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
-                        Ordens de <span className="text-gradient">Serviço</span>
-                    </h1>
-                    <p className="text-lg" style={{ color: 'var(--text-muted)' }}>Controle a execução de seus projetos e entregas.</p>
+        <>
+            <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 0.5rem' }}>
+                    <div>
+                        <h1 className="text-3xl font-bold" style={{ marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
+                            Ordens de <span className="text-gradient">Serviço</span>
+                        </h1>
+                        <p className="text-lg" style={{ color: 'var(--text-muted)' }}>Controle a execução de seus projetos e entregas.</p>
+                    </div>
+
+                    <button onClick={() => setIsModalOpen(true)} className="glass-panel" style={{ padding: '0.875rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', border: '1px solid rgba(182, 255, 0, 0.3)', background: 'var(--accent-primary)', color: '#0b0b0b', fontWeight: 600 }}>
+                        <Plus size={18} strokeWidth={2} /> Nova OS
+                    </button>
                 </div>
 
-                <button onClick={() => setIsModalOpen(true)} className="glass-panel" style={{ padding: '0.875rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', border: '1px solid rgba(182, 255, 0, 0.3)', background: 'var(--accent-primary)', color: '#0b0b0b', fontWeight: 600 }}>
-                    <Plus size={18} strokeWidth={2} /> Nova OS
-                </button>
-            </div>
+                <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div style={{ position: 'relative', maxWidth: '400px' }}>
+                        <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                        <input
+                            type="text"
+                            placeholder="Buscar por título ou cliente..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ paddingLeft: '2.75rem', width: '100%' }}
+                        />
+                    </div>
 
-            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                <div style={{ position: 'relative', maxWidth: '400px' }}>
-                    <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                    <input
-                        type="text"
-                        placeholder="Buscar por título ou cliente..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ paddingLeft: '2.75rem', width: '100%' }}
-                    />
-                </div>
-
-                <div className="custom-scrollbar" style={{ overflowX: 'auto' }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
-                        <thead>
-                            <tr style={{ borderBottom: '1px solid var(--border-glass)' }}>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Ordem de Serviço</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Cliente</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Valor</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Status OS</th>
-                                <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Pagamento</th>
-                                <th style={{ padding: '1rem', textAlign: 'right' }}>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredOrdens.map((os) => {
-                                const status = getStatusStyle(os.status);
-                                return (
-                                    <tr key={os.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', transition: 'background 0.2s' }} className="hover:bg-[rgba(255,255,255,0.02)]">
-                                        <td style={{ padding: '1.25rem 1rem' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                                <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(182, 255, 0, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-primary)' }}>
-                                                    <ShieldCheck size={20} />
+                    <div className="custom-scrollbar" style={{ overflowX: 'auto' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                            <thead>
+                                <tr style={{ borderBottom: '1px solid var(--border-glass)' }}>
+                                    <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Ordem de Serviço</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Cliente</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Valor</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Status OS</th>
+                                    <th style={{ padding: '1rem', color: 'var(--text-muted)', fontWeight: 500, fontSize: '0.9rem' }}>Pagamento</th>
+                                    <th style={{ padding: '1rem', textAlign: 'right' }}>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {filteredOrdens.map((os) => {
+                                    const status = getStatusStyle(os.status);
+                                    return (
+                                        <tr key={os.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', transition: 'background 0.2s' }} className="hover:bg-[rgba(255,255,255,0.02)]">
+                                            <td style={{ padding: '1.25rem 1rem' }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                                    <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: 'rgba(182, 255, 0, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-primary)' }}>
+                                                        <ShieldCheck size={20} />
+                                                    </div>
+                                                    <div>
+                                                        <div style={{ fontWeight: 600 }}>{os.titulo}</div>
+                                                        <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{os.descricao}</div>
+                                                    </div>
                                                 </div>
+                                            </td>
+                                            <td style={{ padding: '1.25rem 1rem' }}>
                                                 <div>
-                                                    <div style={{ fontWeight: 600 }}>{os.titulo}</div>
-                                                    <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{os.descricao}</div>
+                                                    <div style={{ fontWeight: 500 }}>{os.expand?.cliente?.nome}</div>
+                                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{os.expand?.cliente?.empresa}</div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td style={{ padding: '1.25rem 1rem' }}>
-                                            <div>
-                                                <div style={{ fontWeight: 500 }}>{os.expand?.cliente?.nome}</div>
-                                                <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{os.expand?.cliente?.empresa}</div>
-                                            </div>
-                                        </td>
-                                        <td style={{ padding: '1.25rem 1rem', fontWeight: 600 }}>
-                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(os.valor || 0)}
-                                        </td>
-                                        <td style={{ padding: '1.25rem 1rem' }}>
-                                            <span style={{
-                                                display: 'inline-flex',
-                                                alignItems: 'center',
-                                                gap: '0.4rem',
-                                                padding: '0.25rem 0.75rem',
-                                                borderRadius: '20px',
-                                                fontSize: '0.8rem',
-                                                fontWeight: 600,
-                                                background: status.bg,
-                                                color: status.color
-                                            }}>
-                                                {status.icon} {status.label}
-                                            </span>
-                                        </td>
-                                        <td style={{ padding: '1.25rem 1rem' }}>
-                                            {os.status_pagamento === 'Pago' ? (
-                                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#B6FF00', fontSize: '0.85rem', fontWeight: 600 }}>
-                                                    <DollarSign size={14} /> Pago
+                                            </td>
+                                            <td style={{ padding: '1.25rem 1rem', fontWeight: 600 }}>
+                                                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(os.valor || 0)}
+                                            </td>
+                                            <td style={{ padding: '1.25rem 1rem' }}>
+                                                <span style={{
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '0.4rem',
+                                                    padding: '0.25rem 0.75rem',
+                                                    borderRadius: '20px',
+                                                    fontSize: '0.8rem',
+                                                    fontWeight: 600,
+                                                    background: status.bg,
+                                                    color: status.color
+                                                }}>
+                                                    {status.icon} {status.label}
                                                 </span>
-                                            ) : (
-                                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#FFB800', fontSize: '0.85rem', fontWeight: 600 }}>
-                                                    <Clock size={14} /> Pendente
-                                                </span>
-                                            )}
-                                        </td>
-                                        <td style={{ padding: '1.25rem 1rem', textAlign: 'right' }}>
-                                            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
-                                                <button onClick={() => handleSendWhatsApp(os, 'nova')} disabled={sendingWpp === os.id} title="Enviar Fatura (WhatsApp)" style={{ background: 'rgba(37, 211, 102, 0.1)', border: '1px solid rgba(37, 211, 102, 0.2)', color: '#25D366', padding: '0.5rem', borderRadius: '8px', cursor: sendingWpp === os.id ? 'not-allowed' : 'pointer', opacity: sendingWpp === os.id ? 0.5 : 1 }} className="hover:bg-[rgba(37, 211, 102, 0.2)] transition-colors">
-                                                    <MessageSquare size={16} />
-                                                </button>
-                                                <button onClick={() => handleSendWhatsApp(os, 'perto_vencer')} disabled={sendingWpp === os.id} title="Avisar Vencimento Próximo (WhatsApp)" style={{ background: 'rgba(255, 184, 0, 0.1)', border: '1px solid rgba(255, 184, 0, 0.2)', color: '#FFB800', padding: '0.5rem', borderRadius: '8px', cursor: sendingWpp === os.id ? 'not-allowed' : 'pointer', opacity: sendingWpp === os.id ? 0.5 : 1 }} className="hover:bg-[rgba(255, 184, 0, 0.2)] transition-colors">
-                                                    <BellRing size={16} />
-                                                </button>
-                                                <button onClick={() => handleSendWhatsApp(os, 'vencida')} disabled={sendingWpp === os.id} title="Cobrar Fatura Vencida (WhatsApp)" style={{ background: 'rgba(255, 77, 77, 0.1)', border: '1px solid rgba(255, 77, 77, 0.2)', color: '#FF4D4D', padding: '0.5rem', borderRadius: '8px', cursor: sendingWpp === os.id ? 'not-allowed' : 'pointer', opacity: sendingWpp === os.id ? 0.5 : 1 }} className="hover:bg-[rgba(255, 77, 77, 0.2)] transition-colors">
-                                                    <AlertTriangle size={16} />
-                                                </button>
-
-                                                <button onClick={() => generateInvoicePDF(os)} title="Gerar Fatura" style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.2)', color: '#3b82f6', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(59, 130, 246, 0.2)] transition-colors">
-                                                    <Download size={16} />
-                                                </button>
-                                                
-                                                {os.comprovante ? (
-                                                    <a href={pb.files.getUrl(os, os.comprovante)} target="_blank" rel="noreferrer" title="Ver Comprovante" style={{ background: 'rgba(182, 255, 0, 0.1)', border: '1px solid rgba(182, 255, 0, 0.2)', color: 'var(--accent-primary)', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="hover:bg-[rgba(182, 255, 0, 0.2)] transition-colors">
-                                                        <FileCheck size={16} />
-                                                    </a>
+                                            </td>
+                                            <td style={{ padding: '1.25rem 1rem' }}>
+                                                {os.status_pagamento === 'Pago' ? (
+                                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#B6FF00', fontSize: '0.85rem', fontWeight: 600 }}>
+                                                        <DollarSign size={14} /> Pago
+                                                    </span>
                                                 ) : (
-                                                    <button onClick={() => triggerUpload(os.id)} title="Anexar Comprovante do PIX" style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px dashed rgba(255, 255, 255, 0.2)', color: 'white', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(255,255,255,0.1)] transition-colors">
-                                                        <Upload size={16} />
-                                                    </button>
+                                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#FFB800', fontSize: '0.85rem', fontWeight: 600 }}>
+                                                        <Clock size={14} /> Pendente
+                                                    </span>
                                                 )}
+                                            </td>
+                                            <td style={{ padding: '1.25rem 1rem', textAlign: 'right' }}>
+                                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
+                                                    <button onClick={() => handleSendWhatsApp(os, 'nova')} disabled={sendingWpp === os.id} title="Enviar Fatura (WhatsApp)" style={{ background: 'rgba(37, 211, 102, 0.1)', border: '1px solid rgba(37, 211, 102, 0.2)', color: '#25D366', padding: '0.5rem', borderRadius: '8px', cursor: sendingWpp === os.id ? 'not-allowed' : 'pointer', opacity: sendingWpp === os.id ? 0.5 : 1 }} className="hover:bg-[rgba(37, 211, 102, 0.2)] transition-colors">
+                                                        <MessageSquare size={16} />
+                                                    </button>
+                                                    <button onClick={() => handleSendWhatsApp(os, 'perto_vencer')} disabled={sendingWpp === os.id} title="Avisar Vencimento Próximo (WhatsApp)" style={{ background: 'rgba(255, 184, 0, 0.1)', border: '1px solid rgba(255, 184, 0, 0.2)', color: '#FFB800', padding: '0.5rem', borderRadius: '8px', cursor: sendingWpp === os.id ? 'not-allowed' : 'pointer', opacity: sendingWpp === os.id ? 0.5 : 1 }} className="hover:bg-[rgba(255, 184, 0, 0.2)] transition-colors">
+                                                        <BellRing size={16} />
+                                                    </button>
+                                                    <button onClick={() => handleSendWhatsApp(os, 'vencida')} disabled={sendingWpp === os.id} title="Cobrar Fatura Vencida (WhatsApp)" style={{ background: 'rgba(255, 77, 77, 0.1)', border: '1px solid rgba(255, 77, 77, 0.2)', color: '#FF4D4D', padding: '0.5rem', borderRadius: '8px', cursor: sendingWpp === os.id ? 'not-allowed' : 'pointer', opacity: sendingWpp === os.id ? 0.5 : 1 }} className="hover:bg-[rgba(255, 77, 77, 0.2)] transition-colors">
+                                                        <AlertTriangle size={16} />
+                                                    </button>
 
-                                            </div>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
-                    {filteredOrdens.length === 0 && !loading && (
-                        <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-                            Nenhuma ordem de serviço encontrada.
-                        </div>
-                    )}
+                                                    <button onClick={() => generateInvoicePDF(os)} title="Gerar Fatura" style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.2)', color: '#3b82f6', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(59, 130, 246, 0.2)] transition-colors">
+                                                        <Download size={16} />
+                                                    </button>
+                                                    
+                                                    {os.comprovante ? (
+                                                        <a href={pb.files.getUrl(os, os.comprovante)} target="_blank" rel="noreferrer" title="Ver Comprovante" style={{ background: 'rgba(182, 255, 0, 0.1)', border: '1px solid rgba(182, 255, 0, 0.2)', color: 'var(--accent-primary)', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="hover:bg-[rgba(182, 255, 0, 0.2)] transition-colors">
+                                                            <FileCheck size={16} />
+                                                        </a>
+                                                    ) : (
+                                                        <button onClick={() => triggerUpload(os.id)} title="Anexar Comprovante do PIX" style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px dashed rgba(255, 255, 255, 0.2)', color: 'white', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(255,255,255,0.1)] transition-colors">
+                                                            <Upload size={16} />
+                                                        </button>
+                                                    )}
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                        {filteredOrdens.length === 0 && !loading && (
+                            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                                Nenhuma ordem de serviço encontrada.
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
@@ -386,6 +388,6 @@ export function OrdensServico() {
                 accept="image/*,application/pdf"
                 onChange={handleFileSelect}
             />
-        </div>
+        </>
     );
 }

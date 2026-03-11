@@ -100,65 +100,67 @@ export function Servicos() {
     );
 
     return (
-        <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 0.5rem' }}>
-                <div>
-                    <h1 className="text-3xl font-bold" style={{ marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
-                        Tipos de <span className="text-gradient">Serviço</span>
-                    </h1>
-                    <p className="text-lg" style={{ color: 'var(--text-muted)' }}>Gerencie os modelos e valores dos seus serviços.</p>
-                </div>
-
-                <button onClick={() => handleOpenModal()} className="glass-panel" style={{ padding: '0.875rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', border: '1px solid rgba(182, 255, 0, 0.3)', background: 'var(--accent-primary)', color: '#0b0b0b', fontWeight: 600 }}>
-                    <Plus size={18} strokeWidth={2} /> Novo Tipo
-                </button>
-            </div>
-
-            <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                <div style={{ position: 'relative', maxWidth: '400px' }}>
-                    <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
-                    <input
-                        type="text"
-                        placeholder="Buscar por nome..."
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{ paddingLeft: '2.75rem', width: '100%' }}
-                    />
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
-                    {filteredServicos.map(s => (
-                        <div key={s.id} className="glass-panel hover-glow" style={{ padding: '1.5rem', position: 'relative' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                                <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(182, 255, 0, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-primary)' }}>
-                                    <Tag size={20} />
-                                </div>
-                                <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                    <button onClick={() => handleOpenModal(s)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
-                                        <Edit2 size={16} />
-                                    </button>
-                                    <button onClick={() => handleDelete(s.id)} style={{ background: 'transparent', border: 'none', color: '#FF4D4D', cursor: 'pointer' }}>
-                                        <Trash2 size={16} />
-                                    </button>
-                                </div>
-                            </div>
-                            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{s.nome}</h3>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', fontWeight: 600, marginBottom: '1rem' }}>
-                                <DollarSign size={16} />
-                                {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(s.valor_padrao || 0)}
-                            </div>
-                            <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.6' }}>
-                                {s.descricao_padrao}
-                            </p>
-                        </div>
-                    ))}
-                </div>
-
-                {filteredServicos.length === 0 && !loading && (
-                    <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
-                        Nenhum tipo de serviço cadastrado.
+        <>
+            <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 0.5rem' }}>
+                    <div>
+                        <h1 className="text-3xl font-bold" style={{ marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
+                            Tipos de <span className="text-gradient">Serviço</span>
+                        </h1>
+                        <p className="text-lg" style={{ color: 'var(--text-muted)' }}>Gerencie os modelos e valores dos seus serviços.</p>
                     </div>
-                )}
+
+                    <button onClick={() => handleOpenModal()} className="glass-panel" style={{ padding: '0.875rem 1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', border: '1px solid rgba(182, 255, 0, 0.3)', background: 'var(--accent-primary)', color: '#0b0b0b', fontWeight: 600 }}>
+                        <Plus size={18} strokeWidth={2} /> Novo Tipo
+                    </button>
+                </div>
+
+                <div className="glass-panel" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    <div style={{ position: 'relative', maxWidth: '400px' }}>
+                        <Search size={18} style={{ position: 'absolute', left: '1rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
+                        <input
+                            type="text"
+                            placeholder="Buscar por nome..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            style={{ paddingLeft: '2.75rem', width: '100%' }}
+                        />
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                        {filteredServicos.map(s => (
+                            <div key={s.id} className="glass-panel hover-glow" style={{ padding: '1.5rem', position: 'relative' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                                    <div style={{ width: '40px', height: '40px', borderRadius: '10px', background: 'rgba(182, 255, 0, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent-primary)' }}>
+                                        <Tag size={20} />
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                        <button onClick={() => handleOpenModal(s)} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
+                                            <Edit2 size={16} />
+                                        </button>
+                                        <button onClick={() => handleDelete(s.id)} style={{ background: 'transparent', border: 'none', color: '#FF4D4D', cursor: 'pointer' }}>
+                                            <Trash2 size={16} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>{s.nome}</h3>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--accent-primary)', fontWeight: 600, marginBottom: '1rem' }}>
+                                    <DollarSign size={16} />
+                                    {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(s.valor_padrao || 0)}
+                                </div>
+                                <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: '1.6' }}>
+                                    {s.descricao_padrao}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+
+                    {filteredServicos.length === 0 && !loading && (
+                        <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                            Nenhum tipo de serviço cadastrado.
+                        </div>
+                    )}
+                </div>
             </div>
 
             {/* Modal */}
@@ -206,6 +208,6 @@ export function Servicos() {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 }

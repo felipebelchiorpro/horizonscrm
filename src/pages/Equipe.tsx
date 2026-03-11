@@ -151,7 +151,8 @@ export function Equipe() {
     );
 
     return (
-        <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <>
+            <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 0.5rem' }}>
                 <div>
                     <h1 className="text-3xl font-bold" style={{ marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
@@ -249,7 +250,7 @@ export function Equipe() {
                     )}
                 </div>
             </div>
-
+            </div>
             {/* Modal de Criação / Edição de Usuário */}
             {isModalOpen && (
                 <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
@@ -324,6 +325,6 @@ export function Equipe() {
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 }
