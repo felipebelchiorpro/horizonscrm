@@ -4,7 +4,7 @@ import { pb } from '../lib/pocketbase';
 import {
     ArrowLeft, Mail, Phone, Building2, MapPin,
     Briefcase, FileText, History, Plus,
-    ShieldCheck, ExternalLink, Wrench, CheckCircle, Clock
+    ShieldCheck, ExternalLink, Wrench, Clock
 } from 'lucide-react';
 import { NewOSModal } from '../components/ordens/NewOSModal';
 import { NewClientModal } from '../components/clientes/NewClientModal';

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { pb } from '../../lib/pocketbase';
-import { X, Clock, FileText, CheckCircle, Circle, HardDrive, DollarSign } from 'lucide-react';
+import { X, Clock, CheckCircle, HardDrive, DollarSign } from 'lucide-react';
 
 interface NewSupportModalProps {
     isOpen: boolean;
