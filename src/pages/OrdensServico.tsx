@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { pb } from '../lib/pocketbase';
-import { Plus, Search, ShieldCheck, Clock, CheckCircle, XCircle, Download, Upload, FileCheck, DollarSign, MessageSquare, BellRing, AlertTriangle } from 'lucide-react';
+import { Plus, Search, ShieldCheck, Clock, CheckCircle, XCircle, Download, DollarSign, MessageSquare, BellRing, AlertTriangle } from 'lucide-react';
 import { NewOSModal } from '../components/ordens/NewOSModal';
 import { jsPDF } from 'jspdf';
 import { sendChatwootWhatsApp } from '../lib/chatwoot';
@@ -28,8 +28,7 @@ export function OrdensServico() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [sendingWpp, setSendingWpp] = useState<string | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const [uploadingId, setUploadingId] = useState<string | null>(null);
+    const [togglingPaymentId, setTogglingPaymentId] = useState<string | null>(null);
 
     const fetchOrdens = async () => {
         try {
@@ -60,31 +59,18 @@ export function OrdensServico() {
         }
     };
 
-    const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file || !uploadingId) return;
-
+    const togglePaymentStatus = async (os: OrdemServico) => {
+        const newStatus = os.status_pagamento === 'Pago' ? 'Pendente' : 'Pago';
+        setTogglingPaymentId(os.id);
         try {
-            setLoading(true);
-            const formData = new FormData();
-            formData.append('comprovante', file);
-            formData.append('status_pagamento', 'Pago');
-
-            await pb.collection('ordens_servico').update(uploadingId, formData);
+            await pb.collection('ordens_servico').update(os.id, { status_pagamento: newStatus });
             await fetchOrdens();
         } catch (error) {
-            console.error('Error uploading receipt:', error);
-            alert('Erro ao anexar comprovante.');
+            console.error('Error updating payment status:', error);
+            alert('Erro ao atualizar status de pagamento.');
         } finally {
-            setUploadingId(null);
-            if (fileInputRef.current) fileInputRef.current.value = '';
-            setLoading(false);
+            setTogglingPaymentId(null);
         }
-    };
-
-    const triggerUpload = (id: string) => {
-        setUploadingId(id);
-        fileInputRef.current?.click();
     };
 
     const generateInvoicePDF = (os: OrdemServico) => {
@@ -322,15 +308,29 @@ export function OrdensServico() {
                                                 </span>
                                             </td>
                                             <td style={{ padding: '1.25rem 1rem' }}>
-                                                {os.status_pagamento === 'Pago' ? (
-                                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#B6FF00', fontSize: '0.85rem', fontWeight: 600 }}>
-                                                        <DollarSign size={14} /> Pago
-                                                    </span>
-                                                ) : (
-                                                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.3rem', color: '#FFB800', fontSize: '0.85rem', fontWeight: 600 }}>
-                                                        <Clock size={14} /> Pendente
-                                                    </span>
-                                                )}
+                                                <button
+                                                    onClick={() => togglePaymentStatus(os)}
+                                                    disabled={togglingPaymentId === os.id}
+                                                    title={os.status_pagamento === 'Pago' ? 'Marcar como Pendente' : 'Marcar como Pago'}
+                                                    style={{
+                                                        background: os.status_pagamento === 'Pago' ? 'rgba(182, 255, 0, 0.1)' : 'rgba(255, 184, 0, 0.07)',
+                                                        border: os.status_pagamento === 'Pago' ? '1px solid rgba(182, 255, 0, 0.3)' : '1px solid rgba(255, 184, 0, 0.3)',
+                                                        color: os.status_pagamento === 'Pago' ? '#B6FF00' : '#FFB800',
+                                                        padding: '0.3rem 0.75rem',
+                                                        borderRadius: '20px',
+                                                        cursor: togglingPaymentId === os.id ? 'not-allowed' : 'pointer',
+                                                        fontSize: '0.8rem',
+                                                        fontWeight: 600,
+                                                        opacity: togglingPaymentId === os.id ? 0.5 : 1,
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        gap: '0.35rem'
+                                                    }}
+                                                    className="transition-all"
+                                                >
+                                                    {os.status_pagamento === 'Pago' ? <CheckCircle size={13} /> : <Clock size={13} />}
+                                                    {os.status_pagamento === 'Pago' ? 'Pago' : 'Pendente'}
+                                                </button>
                                             </td>
                                             <td style={{ padding: '1.25rem 1rem', textAlign: 'right' }}>
                                                 <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem' }}>
@@ -348,15 +348,7 @@ export function OrdensServico() {
                                                         <Download size={16} />
                                                     </button>
                                                     
-                                                    {os.comprovante ? (
-                                                        <a href={pb.files.getUrl(os, os.comprovante)} target="_blank" rel="noreferrer" title="Ver Comprovante" style={{ background: 'rgba(182, 255, 0, 0.1)', border: '1px solid rgba(182, 255, 0, 0.2)', color: 'var(--accent-primary)', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="hover:bg-[rgba(182, 255, 0, 0.2)] transition-colors">
-                                                            <FileCheck size={16} />
-                                                        </a>
-                                                    ) : (
-                                                        <button onClick={() => triggerUpload(os.id)} title="Anexar Comprovante do PIX" style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px dashed rgba(255, 255, 255, 0.2)', color: 'white', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(255,255,255,0.1)] transition-colors">
-                                                            <Upload size={16} />
-                                                        </button>
-                                                    )}
+
 
                                                 </div>
                                             </td>
@@ -380,14 +372,7 @@ export function OrdensServico() {
                 onSuccess={fetchOrdens}
             />
 
-            {/* Hidden Input for Receipt Upload */}
-            <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                accept="image/*,application/pdf"
-                onChange={handleFileSelect}
-            />
+
         </>
     );
 }
