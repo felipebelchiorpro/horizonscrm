@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { pb } from '../lib/pocketbase';
-import { Plus, Search, ShieldCheck, Clock, CheckCircle, XCircle, Download, MessageSquare, BellRing, AlertTriangle } from 'lucide-react';
+import { Plus, Search, ShieldCheck, Clock, CheckCircle, XCircle, Download, MessageSquare, BellRing, AlertTriangle, Trash2 } from 'lucide-react';
 import { NewOSModal } from '../components/ordens/NewOSModal';
 import { jsPDF } from 'jspdf';
 import { sendChatwootWhatsApp } from '../lib/chatwoot';
@@ -29,6 +29,7 @@ export function OrdensServico() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sendingWpp, setSendingWpp] = useState<string | null>(null);
     const [togglingPaymentId, setTogglingPaymentId] = useState<string | null>(null);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
 
     const fetchOrdens = async () => {
         try {
@@ -70,6 +71,20 @@ export function OrdensServico() {
             alert('Erro ao atualizar status de pagamento.');
         } finally {
             setTogglingPaymentId(null);
+        }
+    };
+
+    const deleteOS = async (os: OrdemServico) => {
+        if (!confirm(`Excluir a OS "${os.titulo}"? Esta ação não pode ser desfeita.`)) return;
+        setDeletingId(os.id);
+        try {
+            await pb.collection('ordens_servico').delete(os.id);
+            await fetchOrdens();
+        } catch (error) {
+            console.error('Error deleting OS:', error);
+            alert('Erro ao excluir a OS.');
+        } finally {
+            setDeletingId(null);
         }
     };
 
@@ -347,8 +362,16 @@ export function OrdensServico() {
                                                     <button onClick={() => generateInvoicePDF(os)} title="Gerar Fatura" style={{ background: 'rgba(59, 130, 246, 0.1)', border: '1px solid rgba(59, 130, 246, 0.2)', color: '#3b82f6', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(59, 130, 246, 0.2)] transition-colors">
                                                         <Download size={16} />
                                                     </button>
-                                                    
 
+                                                    <button
+                                                        onClick={() => deleteOS(os)}
+                                                        disabled={deletingId === os.id}
+                                                        title="Excluir OS"
+                                                        style={{ background: 'rgba(255, 77, 77, 0.08)', border: '1px solid rgba(255, 77, 77, 0.25)', color: '#FF4D4D', padding: '0.5rem', borderRadius: '8px', cursor: deletingId === os.id ? 'not-allowed' : 'pointer', opacity: deletingId === os.id ? 0.5 : 1 }}
+                                                        className="hover:bg-[rgba(255,77,77,0.2)] transition-colors"
+                                                    >
+                                                        <Trash2 size={16} />
+                                                    </button>
 
                                                 </div>
                                             </td>
