@@ -626,9 +626,7 @@ export function Contratos() {
                                                 <button onClick={() => setViewingContrato(contrato)} title="Visualizar" style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'white', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(255,255,255,0.1)] transition-colors">
                                                     <Eye size={16} />
                                                 </button>
-                                                <button style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', padding: '0.5rem', cursor: 'pointer' }}>
-                                                    <MoreVertical size={16} />
-                                                </button>
+
                                             </div>
                                         </td>
                                     </tr>
