@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { pb } from '../lib/pocketbase';
-import { Plus, Search, FileText, CheckCircle, Clock, XCircle, MoreVertical, Eye, Download, Upload, FileCheck, DollarSign, MessageSquare } from 'lucide-react';
+import { Plus, Search, FileText, CheckCircle, Clock, XCircle, Eye, Download, DollarSign, MessageSquare } from 'lucide-react';
 import { NewContractModal } from '../components/contratos/NewContractModal';
 import { jsPDF } from 'jspdf';
 import { sendChatwootWhatsApp } from '../lib/chatwoot';
@@ -33,8 +33,7 @@ export function Contratos() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [viewingContrato, setViewingContrato] = useState<Contrato | null>(null);
-    const fileInputRef = useRef<HTMLInputElement>(null);
-    const [uploadingId, setUploadingId] = useState<string | null>(null);
+    const [togglingPaymentId, setTogglingPaymentId] = useState<string | null>(null);
     const [sendingWpp, setSendingWpp] = useState<string | null>(null);
 
     const handleSendContractWhatsApp = async (contrato: Contrato) => {
@@ -86,31 +85,18 @@ export function Contratos() {
         fetchContratos();
     }, []);
 
-    const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file || !uploadingId) return;
-
+    const togglePaymentStatus = async (contrato: Contrato) => {
+        const newStatus = contrato.status_pagamento === 'Pago' ? 'Pendente' : 'Pago';
+        setTogglingPaymentId(contrato.id);
         try {
-            setLoading(true);
-            const formData = new FormData();
-            formData.append('comprovante', file);
-            formData.append('status_pagamento', 'Pago');
-
-            await pb.collection('contratos').update(uploadingId, formData);
+            await pb.collection('contratos').update(contrato.id, { status_pagamento: newStatus });
             await fetchContratos();
         } catch (error) {
-            console.error('Error uploading receipt:', error);
-            alert('Erro ao anexar comprovante.');
+            console.error('Error updating payment status:', error);
+            alert('Erro ao atualizar status de pagamento.');
         } finally {
-            setUploadingId(null);
-            if (fileInputRef.current) fileInputRef.current.value = '';
-            setLoading(false);
+            setTogglingPaymentId(null);
         }
-    };
-
-    const triggerUpload = (id: string) => {
-        setUploadingId(id);
-        fileInputRef.current?.click();
     };
 
     const loadImageToDataUrl = (url: string): Promise<{ dataUrl: string, width: number, height: number }> => {
@@ -613,15 +599,29 @@ export function Contratos() {
                                                     <DollarSign size={16} />
                                                 </button>
 
-                                                {contrato.comprovante ? (
-                                                    <a href={pb.files.getUrl(contrato, contrato.comprovante)} target="_blank" rel="noreferrer" title="Ver Comprovante" style={{ background: 'rgba(182, 255, 0, 0.1)', border: '1px solid rgba(182, 255, 0, 0.2)', color: 'var(--accent-primary)', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="hover:bg-[rgba(182, 255, 0, 0.2)] transition-colors">
-                                                        <FileCheck size={16} />
-                                                    </a>
-                                                ) : (
-                                                    <button onClick={() => triggerUpload(contrato.id)} title="Anexar Comprovante do PIX" style={{ background: 'rgba(255, 255, 255, 0.05)', border: '1px dashed rgba(255, 255, 255, 0.2)', color: 'white', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(255,255,255,0.1)] transition-colors">
-                                                        <Upload size={16} />
-                                                    </button>
-                                                )}
+                                                <button
+                                                    onClick={() => togglePaymentStatus(contrato)}
+                                                    disabled={togglingPaymentId === contrato.id}
+                                                    title={contrato.status_pagamento === 'Pago' ? 'Marcar como Pendente' : 'Marcar como Pago'}
+                                                    style={{
+                                                        background: contrato.status_pagamento === 'Pago' ? 'rgba(182, 255, 0, 0.1)' : 'rgba(255, 255, 255, 0.05)',
+                                                        border: contrato.status_pagamento === 'Pago' ? '1px solid rgba(182, 255, 0, 0.3)' : '1px dashed rgba(255, 255, 255, 0.2)',
+                                                        color: contrato.status_pagamento === 'Pago' ? 'var(--accent-primary)' : 'var(--text-muted)',
+                                                        padding: '0.5rem 0.75rem',
+                                                        borderRadius: '8px',
+                                                        cursor: togglingPaymentId === contrato.id ? 'not-allowed' : 'pointer',
+                                                        fontSize: '0.75rem',
+                                                        fontWeight: 600,
+                                                        opacity: togglingPaymentId === contrato.id ? 0.5 : 1,
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        gap: '0.3rem'
+                                                    }}
+                                                    className="transition-all"
+                                                >
+                                                    <DollarSign size={14} />
+                                                    {contrato.status_pagamento === 'Pago' ? 'Pago' : 'Pendente'}
+                                                </button>
 
                                                 <button onClick={() => setViewingContrato(contrato)} title="Visualizar" style={{ background: 'rgba(255,255,255,0.05)', border: 'none', color: 'white', padding: '0.5rem', borderRadius: '8px', cursor: 'pointer' }} className="hover:bg-[rgba(255,255,255,0.1)] transition-colors">
                                                     <Eye size={16} />
@@ -693,14 +693,7 @@ export function Contratos() {
                     </div>
                 </div>
             )}
-            {/* Hidden Input for Receipt Upload */}
-            <input
-                type="file"
-                ref={fileInputRef}
-                style={{ display: 'none' }}
-                accept="image/*,application/pdf"
-                onChange={handleFileSelect}
-            />
+
         </>
     );
 }
