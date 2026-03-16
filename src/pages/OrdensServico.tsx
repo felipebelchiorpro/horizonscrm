@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { pb } from '../lib/pocketbase';
-import { Plus, Search, ShieldCheck, Clock, CheckCircle, XCircle, Download, DollarSign, MessageSquare, BellRing, AlertTriangle } from 'lucide-react';
+import { Plus, Search, ShieldCheck, Clock, CheckCircle, XCircle, Download, MessageSquare, BellRing, AlertTriangle } from 'lucide-react';
 import { NewOSModal } from '../components/ordens/NewOSModal';
 import { jsPDF } from 'jspdf';
 import { sendChatwootWhatsApp } from '../lib/chatwoot';
